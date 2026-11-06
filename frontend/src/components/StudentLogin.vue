@@ -111,12 +111,21 @@ export default {
 
     // Handle the registration logic
     submitRegistration() {
-      // Print the collected student info in console for testing
       console.log("Submitting new student data:", this.newStudent);
-      // TODO: Connect to your registration api service here, e.g.:
-      // LoginService.register(this.newStudent).then(...).catch(...)
-      alert("Registration submitted successfully!");
-      this.closeCreateModal(); // Close modal after successful submission
+
+      LoginService.register(this.newStudent)
+        .then(response => {
+          // corresponds to the 201 Created response
+          let successMsg = response.data?.message || "Registration submitted successfully!";
+          alert(successMsg);
+          this.closeCreateModal();
+        })
+        .catch(e => {
+          // corresponds to 409 Conflict or other failures
+          console.error(e);
+          let errorMsg = e.response?.data?.message || "Registration failed, please check backend connection.";
+          alert(errorMsg);
+        });
     }
   },
   mounted() {
