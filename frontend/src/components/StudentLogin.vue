@@ -85,10 +85,11 @@ export default {
     login() {
       LoginService.login(this.studentLoginRequest)
         .then(response => {
-          var student = response.data;
-          console.log(student);
-          localStorage.setItem("sid", student.id);
-          alert("success!");
+            var student = response.data;
+            console.log(student);
+            localStorage.setItem("sid", student.id);
+            // Redirect to the HelloWorld landing page
+            this.$router.push('/helloworld');
         })
         .catch(e => {
           this.studentLoginRequest.studentId = "";
